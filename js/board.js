@@ -9,6 +9,22 @@ function Board(options) {
   this.coins.maker();
 }
 
+Board.prototype.canMoveAirplaneLeft = function(airplane){
+  return airplane.posX > airplane.width;
+}
+
+Board.prototype.canMoveAirplaneRight = function(airplane) {
+  return airplane.posX < (this.width-160)
+}
+
+Board.prototype.canMoveAirplaneUp = function(airplane) {
+  return airplane.posY > airplane.height;
+}
+
+Board.prototype.canMoveAirplaneDown = function(airplane) {
+  return airplane.posY < (this.height-160);
+}
+
 Board.prototype.checkElements = function(){
   this.renderBirds();
   this.renderCoins();

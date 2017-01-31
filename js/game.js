@@ -1,44 +1,58 @@
 function Game(options) {
   this.board = options.board;
+  this.airplane = options.board.airplane;
+  this.bird = options.board.birds;
+  this.coin = options.board.coins;
+  this.intervalId = undefined;
+
+  this.controlKeysHandler = (function(e){
+    switch(e.keyCode){
+      case 37://left
+        if (this.board.canMoveAirplaneLeft(this.airplane))
+          this.board.airplane.moveLeft();
+        break;
+      case 38://up
+        if (this.board.canMoveAirplaneUp(this.airplane))
+          this.board.airplane.moveUp();
+        break;
+      case 39://right
+        if (this.board.canMoveAirplaneRight(this.airplane))
+          this.board.airplane.moveRight();
+        break;
+      case 40://down
+        if (this.board.canMoveAirplaneDown(this.airplane))
+          this.board.airplane.moveDown();
+        break;
+      case 80: //pause
+        if (this.intervalId) {
+          this.pause();
+        } else {
+          this.start();
+        }
+    }
+  }).bind(this);
+
   this.controlKeys();
-  this.start();
 }
 
 Game.prototype.update = function(){
-  this.board.checkElements();
+  this.bird.movement();
+  this.coin.movement();
+  this.checkCollision();
 };
 
+Game.prototype.checkCollision = function() {
+  console.log('checking collision');
+  setTimeout(function() {
+    console.log('removing event');
+    window.removeEventListener('keydown', this.controlKeysHandler);
+  }.bind(this), 2000);
+}
 
 Game.prototype.controlKeys = function(){
-  that = this;
-  window.addEventListener('keydown',function(e){
-    switch(e.keyCode){
-      case 37://left
-        if (that.board.airplane.posX > that.board.airplane.width)
-          that.board.airplane.moveLeft();
-      break;
-      case 38://up
-        if (that.board.airplane.posY > that.board.airplane.height)
-          that.board.airplane.moveUp();
-      break;
-      case 39://right
-        if (that.board.airplane.posX < (that.board.width-160))
-          that.board.airplane.moveRight();
-      break;
-      case 40://down
-        if (that.board.airplane.posY < (that.board.height-160))
-          that.board.airplane.moveDown();
-      break;
-      case 80: //pause
-        if (that.intervalId) {
-          that.pause();
-        } else {
-          that.start();
-        }
-    }
-  });
+  console.log('adding event');
+  window.addEventListener('keydown', this.controlKeysHandler);
 };
-
 
 Game.prototype.start = function(){
   if (!this.intervalId){
@@ -102,6 +116,7 @@ $('.button-start').on('click',function(e){
 
     });
 
+    game.start();
   }, 1000);
 
 });
