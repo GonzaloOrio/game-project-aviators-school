@@ -2,6 +2,7 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
+
 .page-game{
   width: 900px;
   height: 600px;
@@ -39,8 +40,14 @@ body {
   0% {
     font-size: 1rem;
   }
+  25% {
+    font-size: 1.02rem;
+  }
   50% {
     font-size: 1.05rem;
+  }
+  75% {
+    font-size: 1.02rem;
   }
   100% {
     font-size: 1rem;
@@ -78,15 +85,48 @@ body {
 //   position: relative;
 // }
 
+
+
+
 .user {
   width: 120px;
   height: 90px;
   position: absolute;
-  background-image:url(../img/airplane.png);
   background-size: cover;
   background-repeat: no-repeat;
-  left: 20px;
-  top: 210px;
+  // left: 20px;
+  // top: 210px;
+  background-image: url(../img/airplane-sprite.png);
+  animation-name: airplane;
+  animation-duration: 0.5s;
+  animation-timing-function: steps(4, end);
+  animation-iteration-count: infinite;
+  -webkit-animation: airplane 0,4s steps(4, end) infinite;
+}
+
+.user-crash {
+  width: 120px;
+  height: 90px;
+  position: absolute;
+  background-size: cover;
+  background-repeat: no-repeat;
+  // left: 20px;
+  // top: 210px;
+  background-image: url(../img/crash-sprite.png);
+  animation-name: airplane;
+  animation-duration: 0.5s;
+  animation-timing-function: steps(4, end);
+  animation-iteration-count: infinite;
+  -webkit-animation: airplane 0,4s steps(4, end) infinite;
+}
+
+@-webkit-keyframes airplane{
+ from{
+ background-position: 0px;
+ }
+ to{
+ background-position: 480px;
+ }
 }
 
 .enemy {

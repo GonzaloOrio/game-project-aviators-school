@@ -1,95 +1,44 @@
 function Airplane(options) {
-  // this.direction = 'right';
-  // this.body = [
-  //   {row: 1, column: 5},
-  //   {row: 1, column: 4},
-  //   {row: 1, column: 3},
-  //   {row: 1, column: 2},
-  //   {row: 1, column: 1}
-  // ];
+  this.posX = options.posX;
+  this.posY = options.posY;
+  this.width = options.width;
+  this.height = options.height;
 }
 
+Airplane.prototype.PosInit = function(){
+  $(".user").css("top",this.posY+"px");
+  $(".user").css("left",this.posX+"px");
+};
+
 Airplane.prototype.moveLeft = function(){
-  $("#airplane").css("left","-=20");
+  // $(".user").css("left","-=80");
+  $(".user").stop().animate({left:this.posX -=80},100);
+  // this.posX -=100;
 };
 
 Airplane.prototype.moveRight = function(){
-  $("#airplane").css("left","+=20");
+  $(".user").stop().animate({left:this.posX +=80},100);
+  // this.posX +=100;
 };
 
 Airplane.prototype.moveUp = function(){
-  $("#airplane").css("top","-=20");
+  $(".user").stop().animate({top:this.posY -=80},100);
+  // this.posY -=100;
 };
 
 Airplane.prototype.moveDown = function(){
-  $("#airplane").css("top","+=20");
+  $(".user").stop().animate({top:this.posY +=80},100);
+    // this.posY +=100;
 };
 
-Airplane.prototype.limits = function(){
-  
+Airplane.prototype.crash = function(){
+  $(".user").addClass("user-crash");
+  if($(".user").css("top")<"500px"){
+    $(".user").css("top","+=6");
+    $(".user").css("left","+=2");
+  }
 };
 
-// Airplane.prototype.crash = function() {
-//   debugger;
-//   $("#airplane").css("top","+=30");
-// };
-
-
-// Snake.prototype.goLeft = function() {
-//   if (this.direction === 'up' || this.direction === 'down'){
-//     this.direction = 'left';
-//   }
-// };
-//
-// Snake.prototype.goRight = function() {
-//   if (this.direction === 'up' || this.direction === 'down'){
-//     this.direction = 'right';
-//   }
-// };
-//
-// Snake.prototype.goUp = function() {
-//   if (this.direction === 'left' || this.direction === 'right'){
-//     this.direction = 'up';
-//   }
-// };
-//
-// Snake.prototype.goDown = function() {
-//   if (this.direction === 'left' || this.direction === 'right'){
-//     this.direction = 'down';
-//   }
-// };
-//
-// Snake.prototype.moveForward = function(maxRows, maxColumns) {
-//   var head = this.body[0];
-//
-//   switch(this.direction){
-//     case 'up':
-//       this.body.unshift({
-//         row: (head.row - 1 + maxRows ) % maxRows,
-//         column: head.column
-//       });
-//       break;
-//     case 'down':
-//       this.body.unshift({
-//         row: (head.row + 1) % maxRows,
-//         column: head.column
-//       });
-//       break;
-//     case 'left':
-//       this.body.unshift({
-//         row: head.row,
-//         column: (head.column - 1 + maxColumns) % maxColumns
-//       });
-//       break;
-//     case 'right':
-//       this.body.unshift({
-//         row: head.row,
-//         column: (head.column + 1) % maxColumns
-//       });
-//       break;
-//   }
-//   this.previousTail = this.body.pop();
-// };
 //
 // Snake.prototype.grow = function(){
 //   if (this.previousTail){
