@@ -30,38 +30,3 @@ Airplane.prototype.moveDown = function(){
   $(".user").stop().animate({top:this.posY +=30},100);
     // this.posY +=100;
 };
-
-Airplane.prototype.crash = function(){
-  $(".user").addClass("user-crash");
-  if($(".user").css("top")<"500px"){
-    $(".user").css("top","+=6");
-    $(".user").css("left","+=2");
-  }
-};
-
-//
-// Snake.prototype.grow = function(){
-//   if (this.previousTail){
-//     this.body.push(this.previousTail);
-//     this.previousTail = undefined;
-//   }
-// };
-//
-// Snake.prototype.hasEatenFood = function(foodPosition){
-//   return this.body[0].row === foodPosition.row &&
-//           this.body[0].column === foodPosition.column;
-// };
-//
-// Snake.prototype.hasEatenItself = function(){
-//   return this.body.some(function (element, index, array) {
-//     return (element.row === array[0].row &&
-//             element.column === array[0].column && index !== 0);
-//   });
-// };
-//
-// Snake.prototype.collidesWith = function(position){
-//   return this.body.some(function (element){
-//     return element.row === position.row &&
-//            element.column === position.column;
-//   });
-// };

@@ -1,22 +1,26 @@
 
-function randomPosY() {
-  return Math.floor(Math.random() * (80 - 20)) + 20;
+function Birds(){
+
 }
 
-function randomSpeed() {
+Birds.prototype.randomPosY = function() {
+  return Math.floor(Math.random() * (500 - 80)) + 100;
+};
+
+Birds.prototype.randomSpeed = function() {
   return Math.floor(Math.random() * (20 - 10)) + 10;
-}
+};
 
-function generateBird() {
-  var birdY = randomPosY();
+Birds.prototype.generateBird = function(){
+  var birdY = this.randomPosY();
   var bird = $("<div/>")
       .addClass("enemy")
-      .attr("data-speed", randomSpeed())
-      .css("top", birdY+"%");
+      .attr("data-speed", this.randomSpeed())
+      .css("top", birdY+"px");
   return bird;
-}
+};
 
-function displayBird(board, bird) {
+Birds.prototype.displayBird = function(board, bird) {
   board.append(bird);
   var interval = setInterval(function() {
     if (parseInt(bird.css("left")) <= 0) {
@@ -28,22 +32,22 @@ function displayBird(board, bird) {
       parseInt(bird.css("left")) - 2 + "px"
     );
   }, bird.attr("data-speed"));
-}
+};
 
-var board = $(".page-game");
-var birdsInterval = setInterval(randomBirds(makeBird), 1500);
-makeBird();
+Birds.prototype.makeBird = function() {
+  var newBird = this.generateBird();
+  var objInterval = this.displayBird(board, newBird);
+};
 
-
-function makeBird() {
-  var newBird = generateBird();
-  var objInterval = displayBird(board, newBird);
-}
-
-function randomBirds(createBirds) {
+Birds.prototype.randomBirds = function() {
+  var that = this;
   return function() {
     if (Math.floor(Math.random() * (2 - 1)) + 1 === 1) {
-      createBirds();
+      that.makeBird();
     }
   };
-}
+};
+
+// Birds.prototype.createBirds = function(){
+//   this.birdsInterval = setInterval(this.randomBirds(), 1500);
+// };
