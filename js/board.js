@@ -2,44 +2,27 @@ function Board(options) {
   this.width = options.width;
   this.height = options.height;
   this.airplane = options.airplane;
-  this.birds = options.birds;
-  this.coins = options.coins;
-
-  this.birds.maker();
-  this.coins.maker();
 }
 
-Board.prototype.checkElements = function(){
-  this.renderBirds();
-  this.renderCoins();
-  this.checkCollision();
+Board.prototype.canMoveAirplaneLeft = function(airplane){
+  return airplane.posX > airplane.width;
 };
 
-Board.prototype.renderBirds = function(){
-  this.birds.movement();
+Board.prototype.canMoveAirplaneRight = function(airplane) {
+  return airplane.posX < (this.width-160);
 };
 
-Board.prototype.renderCoins = function(){
-  this.coins.movement();
+Board.prototype.canMoveAirplaneUp = function(airplane) {
+  return airplane.posY > airplane.height;
 };
 
-
-// Board.prototype.collision = function(){
-//   var birdX = $(".enemy").css("left");
-//   var birdY = $(".enemy").css("top");
-//   var aviatorX = $(".user").css("left");
-//   var aviatorY = $(".user").css("top");
-//   var birdWidth = $(".enemy").css("width");
-//   var birdHeight = $(".enemy").css("height");
-//   var aviatorWidth = $(".user").css("width");
-//   var aviatorHeight = $(".user").css("height");
-//   if (birdTop === aviatorTop || birdDown === aviatorDown){
-//     alert("collision!!!");
-//   }
-// };
+Board.prototype.canMoveAirplaneDown = function(airplane) {
+  return airplane.posY < (this.height-160);
+};
 
 Board.prototype.checkCollision = function(){
-  if (this.collision()) {
+  console.log(this.collisionBird());
+  if (this.collisionBird()) {
     this.crash = window.setInterval(this.crashCollision.bind(this), 1000);
     // $(".enemy").css("top","+=10"); CAMBIAR BACKGROUND DE GOLPE
   }
@@ -47,7 +30,7 @@ Board.prototype.checkCollision = function(){
 
 Board.prototype.crashCollision = function(){
   this.airplane.crash();
-  this.birds.crash();
+  // this.birds.crash();
 };
 
 // Board.prototype.crashAviator = function (){
@@ -55,7 +38,7 @@ Board.prototype.crashCollision = function(){
 // };
 
 
-Board.prototype.collision = function () {
+Board.prototype.collisionBird = function () {
   var birdX = parseInt($(".enemy").css("left")),
       birdY = parseInt($(".enemy").css("top")),
       aviatorX = parseInt($(".user").css("left")),

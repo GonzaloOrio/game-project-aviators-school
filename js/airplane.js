@@ -12,22 +12,22 @@ Airplane.prototype.PosInit = function(){
 
 Airplane.prototype.moveLeft = function(){
   // $(".user").css("left","-=80");
-  $(".user").stop().animate({left:this.posX -=80},100);
+  $(".user").stop().animate({left:this.posX -=30},100);
   // this.posX -=100;
 };
 
 Airplane.prototype.moveRight = function(){
-  $(".user").stop().animate({left:this.posX +=80},100);
+  $(".user").stop().animate({left:this.posX +=30},100);
   // this.posX +=100;
 };
 
 Airplane.prototype.moveUp = function(){
-  $(".user").stop().animate({top:this.posY -=80},100);
+  $(".user").stop().animate({top:this.posY -=30},100);
   // this.posY -=100;
 };
 
 Airplane.prototype.moveDown = function(){
-  $(".user").stop().animate({top:this.posY +=80},100);
+  $(".user").stop().animate({top:this.posY +=30},100);
     // this.posY +=100;
 };
 

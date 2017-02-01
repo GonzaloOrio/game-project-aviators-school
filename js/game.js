@@ -5,7 +5,7 @@ function Game(options) {
 }
 
 Game.prototype.update = function(){
-  this.board.checkElements();
+  this.board.checkCollision();
 };
 
 
@@ -14,23 +14,23 @@ Game.prototype.controlKeys = function(){
   window.addEventListener('keydown',function(e){
     switch(e.keyCode){
       case 37://left
-        if (that.board.airplane.posX > that.board.airplane.width)
+        if (that.board.airplane.posX > 55)
           that.board.airplane.moveLeft();
       break;
       case 38://up
-        if (that.board.airplane.posY > that.board.airplane.height)
+        if (that.board.airplane.posY > 55)
           that.board.airplane.moveUp();
       break;
       case 39://right
-        if (that.board.airplane.posX < (that.board.width-160))
+        if (that.board.airplane.posX < (that.board.width-145))
           that.board.airplane.moveRight();
       break;
       case 40://down
-        if (that.board.airplane.posY < (that.board.height-160))
+        if (that.board.airplane.posY < (that.board.height-200))
           that.board.airplane.moveDown();
       break;
       case 80: //pause
-        if (that.intervalId) {
+        if (that.intervalId || birdsInterval || coinsInterval) {
           that.pause();
         } else {
           that.start();
@@ -43,8 +43,14 @@ Game.prototype.controlKeys = function(){
 Game.prototype.start = function(){
   if (!this.intervalId){
     this.intervalId = window.setInterval(this.update.bind(this), 60);
-    // var randomTime = Math.floor(Math.random() * (5000 - 3000)) + 3000;
-    // this.generateBirds = window.setInterval(this.board.birds.maker.bind(this), randomTime);
+  }
+  if (!birdsInterval){
+    birdsInterval = setInterval(randomBirds(makeBird), 1500);
+    makeBird();
+  }
+  if (!coinsInterval){
+    coinsInterval = setInterval(randomCoins(makeCoin), 1500);
+    makeCoin();
   }
 };
 
@@ -65,7 +71,13 @@ Game.prototype.start = function(){
 Game.prototype.pause = function(){
   if (this.intervalId){
     clearInterval(this.intervalId);
-    this.intervalId = undefined;
+    this.intervalId = undefined;}
+  if (birdsInterval){
+    clearInterval(birdsInterval);
+    birdsInterval = undefined;}
+  if (coinsInterval){
+    clearInterval(coinsInterval);
+    coinsInterval = undefined;
   }
 };
 
@@ -73,11 +85,7 @@ Game.prototype.pause = function(){
 $('.button-start').on('click',function(e){
   $(".page-game").empty();
   setTimeout(function () {
-    $(".page-game").append(
-      "<div id='airplane' class='user'></div>"+
-      "<div id='bird' class='enemy'></div>"+
-      "<div id='coin' class='gift'></div>"
-    );
+    $(".page-game").append($("<div>").addClass("user"));
 
     var game = new Game({
       // rows: 50,
@@ -86,18 +94,18 @@ $('.button-start').on('click',function(e){
         width: 900,
         height: 600,
         airplane: new Airplane({
-          posX: 300,
-          posY: 30,
+          posX: 20,
+          posY: 210,
           width: 120,
           height: 90
-        }),
-        birds: new Birds(
-          // posX: 860,
-          // posY: 0,
-          // width: 49,
-          // height: 40
-        ),
-        coins: new Coins()
+        })
+        // birds: new Birds(
+        //   // posX: 860,
+        //   // posY: 0,
+        //   // width: 49,
+        //   // height: 40
+        // ),
+        // coins: new Coins()
       })
 
     });
