@@ -4,11 +4,11 @@ function Birds(){
 }
 
 Birds.prototype.randomPosY = function() {
-  return Math.floor(Math.random() * (500 - 80)) + 100;
+  return Math.floor(Math.random() * (450 - 60)) + 60;
 };
 
 Birds.prototype.randomSpeed = function() {
-  return Math.floor(Math.random() * (20 - 10)) + 10;
+  return Math.floor(Math.random() * (10 - 5)) + 5;
 };
 
 Birds.prototype.generateBird = function(){
@@ -22,9 +22,9 @@ Birds.prototype.generateBird = function(){
 
 Birds.prototype.displayBird = function(board, bird) {
   board.append(bird);
-  var interval = setInterval(function() {
+  this.intervalDisplay = setInterval(function() {
     if (parseInt(bird.css("left")) <= 0) {
-      clearInterval(interval);
+      clearInterval(this.intervalDisplay);
       bird.remove();
     }
     bird.css(
@@ -47,7 +47,3 @@ Birds.prototype.randomBirds = function() {
     }
   };
 };
-
-// Birds.prototype.createBirds = function(){
-//   this.birdsInterval = setInterval(this.randomBirds(), 1500);
-// };

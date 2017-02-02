@@ -31,9 +31,9 @@ Game.prototype.canMoveAirplaneDown = function(airplane) {
 
 
 Game.prototype.controlKeys = function(){
-  if(!this.checkCollision()){
   that = this;
   window.addEventListener('keydown',function(e){
+    // debugger;
     switch(e.keyCode){
       case 37://left
         if (that.airplane.posX > 55)
@@ -52,29 +52,26 @@ Game.prototype.controlKeys = function(){
           that.airplane.moveDown();
       break;
       case 80: //pause
-        if (that.intervalId || birdsInterval || coinsInterval) {
+        if (that.intervalId || this.birdsInterval || this.coinsInterval) {
           that.pause();
         } else {
           that.start();
         }
     }
   });
-  }
 };
 
 Game.prototype.start = function(){
   this.birds.makeBird();
   this.coins.makeCoin();
-  // this.birds.createBirds();
-  // this.coins.createCoins();
   if (!this.intervalId){
     this.intervalId = window.setInterval(this.update.bind(this), 200);
   }
   if (!this.birdsInterval){
-    this.birdsInterval = window.setInterval(this.birds.randomBirds(), 1500);
+    this.birdsInterval = window.setInterval(this.birds.randomBirds().bind(this), 800);
   }
   if (!this.coinsInterval){
-    this.coinsInterval = window.setInterval(this.coins.randomCoins(), 3000);
+    this.coinsInterval = window.setInterval(this.coins.randomCoins().bind(this), 2000);
   }
 };
 
@@ -91,6 +88,7 @@ Game.prototype.pause = function(){
 };
 
 Game.prototype.collisionBird = function () {
+  var that = this;
   var crashed = false;
   $(".enemy").each(function () {
     var enemy = $(this);
@@ -111,12 +109,38 @@ Game.prototype.collisionBird = function () {
       );
 
       // break out of loop if crashed
-      if (crashed) return false;
+      if (crashed){
+        enemy.remove();
+        that.lifes();
+        return false;
+      }
   });
   return crashed;
 };
 
+var lifes = 2;
+Game.prototype.lifes = function(){
+  if (lifes > 0) {
+      --lifes;
+  }else if(lifes === 0) {
+      this.gameOver();
+  }
+  console.log(lifes);
+};
+
+Game.prototype.gameOver = function(){
+  // if (this.birds.intervalDisplay){
+  //   clearInterval(this.birds.intervalDisplay);
+  //   this.birds.intervalDisplay = undefined;}
+  // if (this.coins.intervalDisplay){
+  //   clearInterval(this.coins.intervalDisplay);
+  //   this.coins.intervalDisplay = undefined;}
+  this.pause();
+  board.empty();
+};
+
 Game.prototype.collisionCoin = function () {
+  var that = this;
   var getCoin = false;
   $(".gift").each(function () {
     var gift = $(this);
@@ -129,54 +153,54 @@ Game.prototype.collisionCoin = function () {
         aviatorWidth = parseInt($(".user").css("width"))/1.5,
         aviatorHeight = parseInt($(".user").css("height"))/1.5;
 
-      crashed = !(
+      getCoin = !(
           ((aviatorY + aviatorHeight) < (coinY)) ||
           (aviatorY > (coinY + coinHeight)) ||
           ((aviatorX + aviatorWidth) < coinX) ||
           (aviatorX > (coinX + coinWidth))
       );
-
       // break out of loop if crashed
-      if (getCoin) return false;
+      if (getCoin) {
+        that.score(gift.attr("data-value"));
+        gift.remove();
+        return false;
+      }
   });
   return getCoin;
 };
 
-
-Game.prototype.checkCollision = function(){
-    that = this;
-  if (this.collisionBird()) {
-    this.pause();
-    if (!this.coinsInterval){
-      this.intervalCrash = window.setInterval(this.crashCollision.bind(this), 80);
-    }
-  }else if (this.collisionCoin()) {
-
-  }
+var score = 0;
+Game.prototype.score = function(value){
+  if (value === "1")
+    score += 100;
+  if (value === "2")
+    score += 250;
+  if (value === "3")
+    score += 500;
+  console.log(score);
+  $(".score").text("score "+score);
 };
 
-Game.prototype.crashCollision = function(){
-  $(".user").addClass("user-crash");
-  if($(".user").css("top")<"480px"){
-    $(".user").css("top","+=6");
-    $(".user").css("left","+=2");
-  }else{
-    window.setTimeout(this.reload(),5000);
+
+Game.prototype.checkCollision = function(){
+  that = this;
+  if (this.collisionBird()) {
+    this.pause();
+    this.airplane.crashCollision();
+    setTimeout(function(){
+      that.reload();
+      that.start();
+    }, 6000);
+  }else if(this.collisionCoin()) {
   }
 };
 
 Game.prototype.reload = function(){
-  if (this.intervalCrash){
-    clearInterval(this.intervalCrash);
-    this.intervalCrash = undefined;}
   this.airplane.posX = 20;
   this.airplane.posY = 210;
   this.airplane.width = 120;
   this.airplane.height = 90;
   this.airplane.PosInit();
-  $(".user").removeClass("user-crash");
-  $(".user").css("top","210px");
-  $(".user").css("left","20px");
 };
 
 var board = $(".page-game");
@@ -188,8 +212,9 @@ $('.button-start').on('click',function(e){
   board.empty();
   setTimeout(function () {
     board.append($("<div>").addClass("user"));
-    // board.append($("<div>").addClass("user"));
-
+    board.append($("<div>").addClass("infoGame"));
+    $(".infoGame").append($("<h1>").addClass("score").text("score "+" "+score));
+    $(".infoGame").append($("<div>").addClass("heart").prepend('<img src="img/heart.png"/>'));
     var game = new Game({
       width: 900,
       height: 600,
@@ -202,6 +227,5 @@ $('.button-start').on('click',function(e){
       birds: new Birds(),
       coins: new Coins()
     });
-
   }, 1000);
 });

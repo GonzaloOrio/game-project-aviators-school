@@ -12,34 +12,21 @@ Coins.prototype.randomSpeed = function(){
 };
 
 Coins.prototype.generateCoin = function(){
-  var point = Math.floor(Math.random() * (3 - 0)) + 0;
+  var point = Math.floor(Math.random() * (4 - 1)) + 1;
   var coinY = this.randomPosY();
   var coin = $("<div/>")
       .addClass("gift point-"+point)
       .attr("data-speed", this.randomSpeed())
+      .attr("data-value", point)
       .css("top", coinY+"px");
   return coin;
 };
 
-// Coins.prototype.coinValue = function(){
-//   return Math.floor(Math.random() * (3 - 0)) + 0;
-// };
-//
-// Coins.prototype.coinsPoints = function(){
-//   if (this.coinValue() === 0) {
-//     $(".gift").addClass("point-3");
-//   }else if(this.coinValue() === 1){
-//     $(".gift").addClass("point-2");
-//   }else{
-//     $(".gift").addClass("point-1");
-//   }
-// };
-
 Coins.prototype.displayCoin = function(board, coin) {
   board.append(coin);
-  var interval = setInterval(function() {
+  this.intervalDisplay = setInterval(function() {
     if (parseInt(coin.css("left")) <= 0) {
-      clearInterval(interval);
+      clearInterval(this.intervalDisplay);
       coin.remove();
     }
     coin.css(
@@ -57,9 +44,9 @@ Coins.prototype.makeCoin = function() {
 Coins.prototype.randomCoins = function() {
   var that = this;
   return function() {
-    if (Math.floor(Math.random() * (2 - 1)) + 1 === 1) {
+    //  if (Math.floor(Math.random() * (10 - 8)) + 8) {
       that.makeCoin();
-    }
+    // }
   };
 };
 
