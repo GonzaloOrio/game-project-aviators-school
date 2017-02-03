@@ -30,7 +30,6 @@ Game.prototype.canMoveAirplaneDown = function(airplane) {
 Game.prototype.controlKeys = function(){
   var that = this;
   window.addEventListener('keydown',function(e){
-    // debugger;
     switch(e.keyCode){
       case 37://left
         if (that.airplane.posX > 55 && that.airplane.canMove())
@@ -109,8 +108,6 @@ Game.prototype.collisionBird = function () {
           ((aviatorX + aviatorWidth) < birdX) ||
           (aviatorX > (birdX + birdWidth))
       );
-
-      // break out of loop if crashed
       if (crashed){
         enemy.remove();
         that.lifes();
@@ -143,18 +140,17 @@ Game.prototype.collisionCoin = function () {
         aviatorWidth = parseInt($(".user").css("width"))/1.5,
         aviatorHeight = parseInt($(".user").css("height"))/1.5;
 
-      getCoin = !(
-          ((aviatorY + aviatorHeight) < (coinY)) ||
-          (aviatorY > (coinY + coinHeight)) ||
-          ((aviatorX + aviatorWidth) < coinX) ||
-          (aviatorX > (coinX + coinWidth))
-      );
-      // break out of loop if crashed
-      if (getCoin) {
-        that.getCoins(gift.attr("data-value"));
-        gift.remove();
-        return false;
-      }
+    getCoin = !(
+        ((aviatorY + aviatorHeight) < (coinY)) ||
+        (aviatorY > (coinY + coinHeight)) ||
+        ((aviatorX + aviatorWidth) < coinX) ||
+        (aviatorX > (coinX + coinWidth))
+    );
+    if (getCoin) {
+      that.getCoins(gift.attr("data-value"));
+      gift.remove();
+      return false;
+    }
   });
   return getCoin;
 };

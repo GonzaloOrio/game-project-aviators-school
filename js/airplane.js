@@ -14,24 +14,19 @@ Airplane.prototype.PosInit = function(){
 };
 
 Airplane.prototype.moveLeft = function(){
-  // $(".user").css("left","-=80");
   this.user.stop().animate({left:this.posX -=30},10);
-  // this.posX -=100;
 };
 
 Airplane.prototype.moveRight = function(){
   this.user.stop().animate({left:this.posX +=30},10);
-  // this.posX +=100;
 };
 
 Airplane.prototype.moveUp = function(){
   this.user.stop().animate({top:this.posY -=30},10);
-  // this.posY -=100;
 };
 
 Airplane.prototype.moveDown = function(){
   this.user.stop().animate({top:this.posY +=30},10);
-    // this.posY +=100;
 };
 
 Airplane.prototype.canMove = function(){
