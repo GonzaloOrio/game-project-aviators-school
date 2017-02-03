@@ -4,14 +4,12 @@ function Game(options) {
   this.airplane = options.airplane;
   this.birds = options.birds;
   this.coins = options.coins;
+  this.board = $(".page-game");
+  this.userLifes = 2;
+  this.score = 0;
   this.controlKeys();
   this.start();
 }
-
-Game.prototype.update = function(){
-  if(!this.checkCollision()){
-    this.checkCollision();}
-};
 
 Game.prototype.canMoveAirplaneLeft = function(airplane){
   return airplane.posX > airplane.width;
@@ -26,29 +24,28 @@ Game.prototype.canMoveAirplaneUp = function(airplane) {
 };
 
 Game.prototype.canMoveAirplaneDown = function(airplane) {
-  return airplane.posY < (this.height-160);
+  return airplane.posY < (this.height-200);
 };
 
-
 Game.prototype.controlKeys = function(){
-  that = this;
+  var that = this;
   window.addEventListener('keydown',function(e){
     // debugger;
     switch(e.keyCode){
       case 37://left
-        if (that.airplane.posX > 55)
+        if (that.airplane.posX > 55 && that.airplane.canMove())
           that.airplane.moveLeft();
       break;
       case 38://up
-        if (that.airplane.posY > 55)
+        if (that.airplane.posY > 55 && that.airplane.canMove())
           that.airplane.moveUp();
       break;
       case 39://right
-        if (that.airplane.posX < (that.width-145))
+        if (that.airplane.posX < (that.width-145) && that.airplane.canMove())
           that.airplane.moveRight();
       break;
       case 40://down
-        if (that.airplane.posY < (that.height-200))
+        if (that.airplane.posY < (that.height-200) && that.airplane.canMove())
           that.airplane.moveDown();
       break;
       case 80: //pause
@@ -59,6 +56,11 @@ Game.prototype.controlKeys = function(){
         }
     }
   });
+};
+
+Game.prototype.update = function(){
+  if(!this.checkCollision()){
+    this.checkCollision();}
 };
 
 Game.prototype.start = function(){
@@ -118,25 +120,13 @@ Game.prototype.collisionBird = function () {
   return crashed;
 };
 
-var lifes = 2;
 Game.prototype.lifes = function(){
-  if (lifes > 0) {
-      --lifes;
-  }else if(lifes === 0) {
+  if (this.userLifes > 0) {
+    $(".heart-"+this.userLifes).remove();
+      --this.userLifes;
+  }else if(this.userLifes === 0) {
       this.gameOver();
   }
-  console.log(lifes);
-};
-
-Game.prototype.gameOver = function(){
-  // if (this.birds.intervalDisplay){
-  //   clearInterval(this.birds.intervalDisplay);
-  //   this.birds.intervalDisplay = undefined;}
-  // if (this.coins.intervalDisplay){
-  //   clearInterval(this.coins.intervalDisplay);
-  //   this.coins.intervalDisplay = undefined;}
-  this.pause();
-  board.empty();
 };
 
 Game.prototype.collisionCoin = function () {
@@ -161,7 +151,7 @@ Game.prototype.collisionCoin = function () {
       );
       // break out of loop if crashed
       if (getCoin) {
-        that.score(gift.attr("data-value"));
+        that.getCoins(gift.attr("data-value"));
         gift.remove();
         return false;
       }
@@ -169,18 +159,15 @@ Game.prototype.collisionCoin = function () {
   return getCoin;
 };
 
-var score = 0;
-Game.prototype.score = function(value){
+Game.prototype.getCoins = function(value){
   if (value === "1")
-    score += 100;
+    this.score += 100;
   if (value === "2")
-    score += 250;
+    this.score += 250;
   if (value === "3")
-    score += 500;
-  console.log(score);
-  $(".score").text("score "+score);
+    this.score += 500;
+  $(".score").text("score "+this.score);
 };
-
 
 Game.prototype.checkCollision = function(){
   that = this;
@@ -201,31 +188,40 @@ Game.prototype.reload = function(){
   this.airplane.width = 120;
   this.airplane.height = 90;
   this.airplane.PosInit();
+  this.airplane.user.show();
 };
 
-var board = $(".page-game");
-// var birds = $(".enemy");
-// var coins = $(".gift");
-// var player = $(".user");
+Game.prototype.gameOver = function(){
+  this.pause();
+  this.board.empty();
+  $(".infoGame").remove();
+  this.board.append($("<div>").addClass("gameOver"));
+  $(".gameOver").append($("<h1>").addClass("finalScore").text("score "+" "+this.score));
+};
 
-$('.button-start').on('click',function(e){
-  board.empty();
-  setTimeout(function () {
-    board.append($("<div>").addClass("user"));
-    board.append($("<div>").addClass("infoGame"));
-    $(".infoGame").append($("<h1>").addClass("score").text("score "+" "+score));
-    $(".infoGame").append($("<div>").addClass("heart").prepend('<img src="img/heart.png"/>'));
-    var game = new Game({
-      width: 900,
-      height: 600,
-      airplane: new Airplane({
-        posX: 20,
-        posY: 210,
-        width: 120,
-        height: 90
-      }),
-      birds: new Birds(),
-      coins: new Coins()
-    });
-  }, 1000);
+$(document).ready(function(){
+  $('.button-start').on('click',function(e){
+    var board = $(".page-game");
+    $(".page-game").empty();
+    setTimeout(function() {
+      $(".page-game").append($("<div>").addClass("user"));
+      $(".page-game").append($("<div>").addClass("infoGame"));
+      $(".infoGame").append($("<h1>").addClass("score").text("score "+" "+this.score));
+      $(".infoGame").append($("<div>").addClass("heart-0").prepend('<img src="img/heart.png"/>'));
+      $(".infoGame").append($("<div>").addClass("heart-1").prepend('<img src="img/heart.png"/>'));
+      $(".infoGame").append($("<div>").addClass("heart-2").prepend('<img src="img/heart.png"/>'));
+      var game = new Game({
+        width: 900,
+        height: 600,
+        airplane: new Airplane({
+          posX: 20,
+          posY: 210,
+          width: 120,
+          height: 90
+        }),
+        birds: new Birds(),
+        coins: new Coins()
+      });
+    }, 1000);
+  });
 });

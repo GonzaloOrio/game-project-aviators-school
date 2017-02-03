@@ -36,15 +36,6 @@ body {
   width: 100%;
 }
 
-@keyframes infoUser {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 100;
-  }
-}
-
 @keyframes boom {
   0% {
     font-size: 1rem;
@@ -76,26 +67,50 @@ body {
 }
 
 .infoGame{
-  animation: infoUser 1s;
-  top:500px;
+  animation: infoGame 1s;
+  top:495px;
   width: 100%;
   height: 100px;
   position: absolute;
   background-color: rgba(242, 59, 59, 0.9);
-  border-top: 3px solid #ffffff;
+  border-top: 5px solid #ffffff;
   z-index: 900;
 }
 
-.heart{
+@keyframes infoGame {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+}
+
+.heart-0{
   width: 150px;
   height: 50px;
   top: 25px;
   left: 90px;
   position: absolute;
-  
 }
 
-.heart > img{
+.heart-1{
+  width: 150px;
+  height: 50px;
+  top: 25px;
+  left: 160px;
+  position: absolute;
+}
+
+.heart-2{
+  width: 150px;
+  height: 50px;
+  top: 25px;
+  left: 230px;
+  position: absolute;
+}
+
+.heart-0 > img, .heart-1 > img, .heart-2 > img{
   height: 100%;
 }
 
@@ -120,6 +135,10 @@ body {
   z-index: 800;
 }
 
+@-webkit-keyframes airplane{
+  100% {background-position: -538px;}
+}
+
 .user-crash {
   width: 140px;
   height: 100px;
@@ -136,18 +155,19 @@ body {
   100% {background-position: -560px;}
 }
 
-@-webkit-keyframes airplane{
-  100% {background-position: -538px;}
-}
-
 .enemy {
-  width: 49px;
-  height: 40px;
+  width: 65px;
+  height: 60px;
   position: absolute;
-  background-image: url(../img/bird.png);
   background-size: cover;
   background-repeat: no-repeat;
+  background-image: url(../img/birds.png);
+  animation: birds 0.7s steps(8) infinite;
   left: 850px;
+}
+
+@-webkit-keyframes birds{
+  100% {background-position: -472px;}
 }
 
 
@@ -183,5 +203,52 @@ body {
 }
 
 @-webkit-keyframes coin{
-100% { background-position: -399px; }
+  100% { background-position: -399px; }
 }
+
+.gameOver{
+  animation: gameOver 2s;
+  top:-5px;
+  width: 100%;
+  height: 605px;
+  position: absolute;
+  background-color: rgba(3, 95, 252, 1);
+  border-top: 5px solid #ffffff;
+  z-index: 1200;
+}
+
+@keyframes gameOver {
+  0% {
+    top:495px;
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    background-color: rgba(242, 59, 59, 0.9);
+    border-top: 5px solid #ffffff;
+    z-index: 900;
+  }
+  100% {
+    top:-5px;
+    width: 100%;
+    height: 605px;
+    background-color: rgba(3, 95, 252, 1);
+  }
+}
+
+.finalScore{
+  animation: finalScore 3s;
+  top:40%;
+  position: absolute;
+  color: #ffffff;
+  z-index: 900;
+  left: 30%;
+  font-size: 4rem;
+}
+
+@keyframes infoGame {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }

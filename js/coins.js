@@ -1,6 +1,7 @@
 
 function Coins(){
-
+  this.coin = $(".gift");
+  this.board = $(".page-game");
 }
 
 Coins.prototype.randomPosY = function(){
@@ -29,27 +30,18 @@ Coins.prototype.displayCoin = function(board, coin) {
       clearInterval(this.intervalDisplay);
       coin.remove();
     }
-    coin.css(
-      "left",
-      parseInt(coin.css("left")) - 3 + "px"
-    );
+    coin.css("left", parseInt(coin.css("left")) - 3 + "px");
   }, coin.attr("data-speed"));
 };
 
 Coins.prototype.makeCoin = function() {
   var newCoin = this.generateCoin();
-  var objInterval = this.displayCoin(board, newCoin);
+  var objInterval = this.displayCoin(this.board, newCoin);
 };
 
 Coins.prototype.randomCoins = function() {
   var that = this;
   return function() {
-    //  if (Math.floor(Math.random() * (10 - 8)) + 8) {
       that.makeCoin();
-    // }
   };
 };
-
-// Coins.prototype.createCoins = function(){
-//   var coinsInterval = setInterval(this.randomCoins(), 3000);
-// };

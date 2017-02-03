@@ -1,6 +1,7 @@
 
 function Birds(){
-
+ this.bird = $(".enemy");
+ this.board = $(".page-game");
 }
 
 Birds.prototype.randomPosY = function() {
@@ -27,16 +28,13 @@ Birds.prototype.displayBird = function(board, bird) {
       clearInterval(this.intervalDisplay);
       bird.remove();
     }
-    bird.css(
-      "left",
-      parseInt(bird.css("left")) - 2 + "px"
-    );
+    bird.css("left", parseInt(bird.css("left")) - 2 + "px");
   }, bird.attr("data-speed"));
 };
 
 Birds.prototype.makeBird = function() {
   var newBird = this.generateBird();
-  var objInterval = this.displayBird(board, newBird);
+  var objInterval = this.displayBird(this.board, newBird);
 };
 
 Birds.prototype.randomBirds = function() {
