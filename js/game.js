@@ -206,7 +206,7 @@ $(document).ready(function(){
     setTimeout(function() {
       $(".page-game").append($("<div>").addClass("user"));
       $(".page-game").append($("<div>").addClass("infoGame"));
-      $(".infoGame").append($("<h1>").addClass("score").text("score "+" "+this.score));
+      $(".infoGame").append($("<h1>").addClass("score").text("score "+ 0));
       $(".infoGame").append($("<div>").addClass("heart-0").prepend('<img src="img/heart.png"/>'));
       $(".infoGame").append($("<div>").addClass("heart-1").prepend('<img src="img/heart.png"/>'));
       $(".infoGame").append($("<div>").addClass("heart-2").prepend('<img src="img/heart.png"/>'));
