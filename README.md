@@ -22,7 +22,8 @@ This game has been created with these technologies
 The game has an easy and entertaining dynamic, in which with three lifes, the user will collect all possible coins to increase his score. There are somethings to considerate:
 
 
- - The airplane is handling with the arrow keys and can move around the space of the board. <img src="http://ayudaexcel.com/wp-content/uploads/2014/10/flechas.png" alt="Drawing" style="width: 80px; margin-left:30px;"/>
+ - The airplane is handling with the arrow keys and can move around the space of the board.
+![keyboard](<img src="http://ayudaexcel.com/wp-content/uploads/2014/10/flechas.png" alt="Drawing" style="width: 80px; margin-left:30px;"/>)
 
  - The birds move at different speeds and different positions randomly.
  - The coins will leave randomly, and there are three kinds of coins:
