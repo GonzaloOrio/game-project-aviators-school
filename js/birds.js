@@ -14,7 +14,7 @@ Birds.prototype.randomSpeed = function() {
 
 Birds.prototype.generateBird = function(){
   var birdY = this.randomPosY();
-  var bird = $("<div/>")
+  var bird = $("<div>")
       .addClass("enemy")
       .attr("data-speed", this.randomSpeed())
       .css("top", birdY+"px");

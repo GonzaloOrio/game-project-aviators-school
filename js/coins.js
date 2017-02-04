@@ -15,7 +15,7 @@ Coins.prototype.randomSpeed = function(){
 Coins.prototype.generateCoin = function(){
   var point = Math.floor(Math.random() * (4 - 1)) + 1;
   var coinY = this.randomPosY();
-  var coin = $("<div/>")
+  var coin = $("<div>")
       .addClass("gift point-"+point)
       .attr("data-speed", this.randomSpeed())
       .attr("data-value", point)

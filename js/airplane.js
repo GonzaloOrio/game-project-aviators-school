@@ -40,7 +40,7 @@ Airplane.prototype.crashCollision = function(){
   var interval = setInterval(function() {
     that.user.css("top","+=6");
     that.user.css("left","+=2");
-    if (parseInt($(".user").css("top")) >= 480) {
+    if (parseInt(that.user.css("top")) >= 480) {
       that.user.hide();
       that.user.removeClass("user-crash");
       clearInterval(interval);
